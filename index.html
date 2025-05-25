@@ -550,13 +550,78 @@
             // Navigation buttons are always enabled with looping
             document.getElementById('prevBtn').disabled = false;
             document.getElementById('nextBtn').disabled = false;
-        }
-
-        function cancelCurrentAudio() {
+        }        function cancelCurrentAudio() {
             // Cancel any ongoing speech synthesis
             if ('speechSynthesis' in window && speechSynthesis.speaking) {
                 speechSynthesis.cancel();
             }
+        }
+
+        function getBestVoice() {
+            if (!('speechSynthesis' in window)) return null;
+
+            const voices = speechSynthesis.getVoices();
+
+            // Prioritize high-quality voices by name patterns
+            const preferredVoices = voices.filter(voice =>
+                voice.name.includes('Enhanced') ||
+                voice.name.includes('Premium') ||
+                voice.name.includes('Neural') ||
+                voice.name.includes('Natural') ||
+                voice.name.includes('Compact') ||
+                voice.name.includes('Samantha') ||
+                voice.name.includes('Karen') ||
+                voice.name.includes('Susan') ||
+                voice.name.includes('Allison') ||
+                voice.name.includes('Ava') ||
+                voice.name.includes('Zoe')
+            );
+
+            // Look for local (non-remote) voices which are usually higher quality
+            const localVoices = voices.filter(voice => voice.localService);
+
+            // Choose the best available voice
+            if (preferredVoices.length > 0) {
+                return preferredVoices[0];
+            } else if (localVoices.length > 0) {
+                // Prefer female voices for children's content
+                return localVoices.find(voice =>
+                    voice.name.toLowerCase().includes('female') ||
+                    voice.name.toLowerCase().includes('woman')
+                ) || localVoices[0];
+            }
+
+            return null;
+        }
+
+        function createUtterance(text, voice = null) {
+            const utterance = new SpeechSynthesisUtterance();
+            utterance.text = text;
+            utterance.rate = 0.8;
+            utterance.pitch = 1.1;
+            utterance.volume = 1;
+
+            if (voice) {
+                utterance.voice = voice;
+            }
+
+            return utterance;
+        }
+
+        function applyVisualFeedback(elementId, transform = 'scale(1.1) rotate(5deg)', duration = 300) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+
+            // Use requestAnimationFrame for smooth animation
+            requestAnimationFrame(() => {
+                element.style.transform = transform;
+                
+                setTimeout(() => {
+                    requestAnimationFrame(() => {
+                        element.style.transform = 'scale(1) rotate(0deg)';
+                    });
+                }, duration);
+            });
         }
 
         function playSound() {
@@ -568,65 +633,38 @@
 
             // Create speech synthesis
             if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance();
+                const selectedVoice = getBestVoice();
 
                 if (currentMode === 'alphabet') {
-                    utterance.text = `${item.letter}. ${item.word}`;
+                    // First say the letter - visual feedback on display
+                    const letterUtterance = createUtterance(item.letter, selectedVoice);
+                    applyVisualFeedback('itemDisplay');
+
+                    // After letter finishes, wait a bit then say the word
+                    letterUtterance.onend = function() {
+                        setTimeout(() => {
+                            const wordUtterance = createUtterance(item.word, selectedVoice);
+                            
+                            // Visual feedback on image when word starts playing
+                            wordUtterance.onstart = function() {
+                                applyVisualFeedback('itemImage', 'scale(1.1)');
+                            };
+                            
+                            speechSynthesis.speak(wordUtterance);
+                        }, 500); // 500ms pause between letter and word
+                    };
+
+                    speechSynthesis.speak(letterUtterance);
                 } else {
                     // For numbers, just say the word to avoid repetition
-                    utterance.text = item.word;
+                    const utterance = createUtterance(item.word, selectedVoice);
+                    applyVisualFeedback('itemDisplay');
+                    speechSynthesis.speak(utterance);
                 }
-
-                utterance.rate = 0.8;
-                utterance.pitch = 1.1;
-                utterance.volume = 1;
-
-                // Try to use the most natural voice available
-                const voices = speechSynthesis.getVoices();
-
-                // Prioritize high-quality voices by name patterns
-                const preferredVoices = voices.filter(voice =>
-                    voice.name.includes('Enhanced') ||
-                    voice.name.includes('Premium') ||
-                    voice.name.includes('Neural') ||
-                    voice.name.includes('Natural') ||
-                    voice.name.includes('Compact') ||
-                    voice.name.includes('Samantha') ||
-                    voice.name.includes('Karen') ||
-                    voice.name.includes('Susan') ||
-                    voice.name.includes('Allison') ||
-                    voice.name.includes('Ava') ||
-                    voice.name.includes('Zoe')
-                );
-
-                // Look for local (non-remote) voices which are usually higher quality
-                const localVoices = voices.filter(voice => voice.localService);
-
-                // Choose the best available voice
-                let selectedVoice = null;
-                if (preferredVoices.length > 0) {
-                    selectedVoice = preferredVoices[0];
-                } else if (localVoices.length > 0) {
-                    // Prefer female voices for children's content
-                    selectedVoice = localVoices.find(voice =>
-                        voice.name.toLowerCase().includes('female') ||
-                        voice.name.toLowerCase().includes('woman')
-                    ) || localVoices[0];
-                }
-
-                if (selectedVoice) {
-                    utterance.voice = selectedVoice;
-                }
-
-                speechSynthesis.speak(utterance);
+            } else {
+                // Fallback visual feedback if no speech synthesis
+                applyVisualFeedback('itemDisplay');
             }
-
-            // Visual feedback
-            const display = document.getElementById('itemDisplay');
-            display.style.transform = 'scale(1.1) rotate(5deg)';
-            setTimeout(() => {
-                display.style.transform = 'scale(1) rotate(0deg)';
-            }, 300);
         }
 
         function nextItem() {
@@ -642,13 +680,9 @@
             }
 
             updateDisplay();
-            // Add visual feedback immediately
-            const display = document.getElementById('itemDisplay');
+            // Add visual feedback immediately using requestAnimationFrame
             setTimeout(() => {
-                display.style.transform = 'scale(1.1) rotate(5deg)';
-                setTimeout(() => {
-                    display.style.transform = 'scale(1) rotate(0deg)';
-                }, 300);
+                applyVisualFeedback('itemDisplay');
             }, 100);
             // Auto-play sound when navigating to next item
             setTimeout(playSound, 300);
@@ -667,13 +701,9 @@
             }
 
             updateDisplay();
-            // Add visual feedback immediately
-            const display = document.getElementById('itemDisplay');
+            // Add visual feedback immediately using requestAnimationFrame
             setTimeout(() => {
-                display.style.transform = 'scale(1.1) rotate(5deg)';
-                setTimeout(() => {
-                    display.style.transform = 'scale(1) rotate(0deg)';
-                }, 300);
+                applyVisualFeedback('itemDisplay');
             }, 100);
             // Auto-play sound when navigating to previous item
             setTimeout(playSound, 300);
@@ -688,6 +718,18 @@
                 btn.classList.remove('active');
             });
             event.target.classList.add('active');
+
+            // Hide/show item-right based on mode
+            const itemRight = document.querySelector('.item-right');
+            const itemContainer = document.querySelector('.item-container');
+
+            if (mode === 'numbers') {
+                itemRight.style.display = 'none';
+                itemContainer.style.justifyContent = 'center';
+            } else {
+                itemRight.style.display = 'flex';
+                itemContainer.style.justifyContent = 'space-between';
+            }
 
             updateDisplay();
 
@@ -772,6 +814,18 @@
 
         // Initialize the app
         updateDisplay();
+
+        // Initialize mode-specific display
+        const itemRight = document.querySelector('.item-right');
+        const itemContainer = document.querySelector('.item-container');
+
+        if (currentMode === 'numbers') {
+            itemRight.style.display = 'none';
+            itemContainer.style.justifyContent = 'center';
+        } else {
+            itemRight.style.display = 'flex';
+            itemContainer.style.justifyContent = 'space-between';
+        }
 
         // Load voices when available
         if ('speechSynthesis' in window) {
