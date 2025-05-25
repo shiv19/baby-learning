@@ -583,9 +583,9 @@
 
                 // Try to use the most natural voice available
                 const voices = speechSynthesis.getVoices();
-                
+
                 // Prioritize high-quality voices by name patterns
-                const preferredVoices = voices.filter(voice => 
+                const preferredVoices = voices.filter(voice =>
                     voice.name.includes('Enhanced') ||
                     voice.name.includes('Premium') ||
                     voice.name.includes('Neural') ||
@@ -601,14 +601,14 @@
 
                 // Look for local (non-remote) voices which are usually higher quality
                 const localVoices = voices.filter(voice => voice.localService);
-                
+
                 // Choose the best available voice
                 let selectedVoice = null;
                 if (preferredVoices.length > 0) {
                     selectedVoice = preferredVoices[0];
                 } else if (localVoices.length > 0) {
                     // Prefer female voices for children's content
-                    selectedVoice = localVoices.find(voice => 
+                    selectedVoice = localVoices.find(voice =>
                         voice.name.toLowerCase().includes('female') ||
                         voice.name.toLowerCase().includes('woman')
                     ) || localVoices[0];
@@ -632,7 +632,7 @@
         function nextItem() {
             // Cancel current audio immediately
             cancelCurrentAudio();
-            
+
             const data = getCurrentData();
             if (currentIndex < data.length - 1) {
                 currentIndex++;
@@ -640,7 +640,7 @@
                 // Loop back to the beginning
                 currentIndex = 0;
             }
-            
+
             updateDisplay();
             // Add visual feedback immediately
             const display = document.getElementById('itemDisplay');
@@ -657,7 +657,7 @@
         function previousItem() {
             // Cancel current audio immediately
             cancelCurrentAudio();
-            
+
             const data = getCurrentData();
             if (currentIndex > 0) {
                 currentIndex--;
@@ -665,7 +665,7 @@
                 // Loop to the end
                 currentIndex = data.length - 1;
             }
-            
+
             updateDisplay();
             // Add visual feedback immediately
             const display = document.getElementById('itemDisplay');
