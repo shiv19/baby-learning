@@ -552,7 +552,17 @@
             document.getElementById('nextBtn').disabled = currentIndex === data.length - 1;
         }
 
+        function cancelCurrentAudio() {
+            // Cancel any ongoing speech synthesis
+            if ('speechSynthesis' in window && speechSynthesis.speaking) {
+                speechSynthesis.cancel();
+            }
+        }
+
         function playSound() {
+            // Cancel any current audio first
+            cancelCurrentAudio();
+
             const data = getCurrentData();
             const item = data[currentIndex];
 
@@ -596,6 +606,9 @@
         }
 
         function nextItem() {
+            // Cancel current audio immediately
+            cancelCurrentAudio();
+            
             const data = getCurrentData();
             if (currentIndex < data.length - 1) {
                 currentIndex++;
@@ -614,6 +627,9 @@
         }
 
         function previousItem() {
+            // Cancel current audio immediately
+            cancelCurrentAudio();
+            
             if (currentIndex > 0) {
                 currentIndex--;
                 updateDisplay();
@@ -642,9 +658,8 @@
 
             updateDisplay();
 
-            if (autoPlay) {
-                setTimeout(playSound, 500);
-            }
+            // Always play sound when switching modes for immediate feedback
+            setTimeout(playSound, 500);
         }
 
         // Make image clickable too
