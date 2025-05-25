@@ -615,7 +615,7 @@
             // Use requestAnimationFrame for smooth animation
             requestAnimationFrame(() => {
                 element.style.transform = transform;
-                
+
                 setTimeout(() => {
                     requestAnimationFrame(() => {
                         element.style.transform = 'scale(1) rotate(0deg)';
@@ -637,19 +637,21 @@
 
                 if (currentMode === 'alphabet') {
                     // First say the letter - visual feedback on display
-                    const letterUtterance = createUtterance(item.letter, selectedVoice);
+                    // Use lowercase to prevent "Capital A" pronunciation on some voices
+                    const letterText = item.letter.toLowerCase();
+                    const letterUtterance = createUtterance(letterText, selectedVoice);
                     applyVisualFeedback('itemDisplay');
 
                     // After letter finishes, wait a bit then say the word
                     letterUtterance.onend = function() {
                         setTimeout(() => {
                             const wordUtterance = createUtterance(item.word, selectedVoice);
-                            
+
                             // Visual feedback on image when word starts playing
                             wordUtterance.onstart = function() {
                                 applyVisualFeedback('itemImage', 'scale(1.1)');
                             };
-                            
+
                             speechSynthesis.speak(wordUtterance);
                         }, 500); // 500ms pause between letter and word
                     };
