@@ -547,9 +547,9 @@
             display.classList.add('pulse');
             setTimeout(() => display.classList.remove('pulse'), 1000);
 
-            // Update navigation buttons
-            document.getElementById('prevBtn').disabled = currentIndex === 0;
-            document.getElementById('nextBtn').disabled = currentIndex === data.length - 1;
+            // Navigation buttons are always enabled with looping
+            document.getElementById('prevBtn').disabled = false;
+            document.getElementById('nextBtn').disabled = false;
         }
 
         function cancelCurrentAudio() {
@@ -636,38 +636,47 @@
             const data = getCurrentData();
             if (currentIndex < data.length - 1) {
                 currentIndex++;
-                updateDisplay();
-                // Add visual feedback immediately
-                const display = document.getElementById('itemDisplay');
-                setTimeout(() => {
-                    display.style.transform = 'scale(1.1) rotate(5deg)';
-                    setTimeout(() => {
-                        display.style.transform = 'scale(1) rotate(0deg)';
-                    }, 300);
-                }, 100);
-                // Auto-play sound when navigating to next item
-                setTimeout(playSound, 300);
+            } else {
+                // Loop back to the beginning
+                currentIndex = 0;
             }
+            
+            updateDisplay();
+            // Add visual feedback immediately
+            const display = document.getElementById('itemDisplay');
+            setTimeout(() => {
+                display.style.transform = 'scale(1.1) rotate(5deg)';
+                setTimeout(() => {
+                    display.style.transform = 'scale(1) rotate(0deg)';
+                }, 300);
+            }, 100);
+            // Auto-play sound when navigating to next item
+            setTimeout(playSound, 300);
         }
 
         function previousItem() {
             // Cancel current audio immediately
             cancelCurrentAudio();
             
+            const data = getCurrentData();
             if (currentIndex > 0) {
                 currentIndex--;
-                updateDisplay();
-                // Add visual feedback immediately
-                const display = document.getElementById('itemDisplay');
-                setTimeout(() => {
-                    display.style.transform = 'scale(1.1) rotate(5deg)';
-                    setTimeout(() => {
-                        display.style.transform = 'scale(1) rotate(0deg)';
-                    }, 300);
-                }, 100);
-                // Auto-play sound when navigating to previous item
-                setTimeout(playSound, 300);
+            } else {
+                // Loop to the end
+                currentIndex = data.length - 1;
             }
+            
+            updateDisplay();
+            // Add visual feedback immediately
+            const display = document.getElementById('itemDisplay');
+            setTimeout(() => {
+                display.style.transform = 'scale(1.1) rotate(5deg)';
+                setTimeout(() => {
+                    display.style.transform = 'scale(1) rotate(0deg)';
+                }, 300);
+            }, 100);
+            // Auto-play sound when navigating to previous item
+            setTimeout(playSound, 300);
         }
 
         function switchMode(mode) {
