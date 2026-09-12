@@ -1,0 +1,263 @@
+/* ---------- shapes : animated shape scenes ---------- */
+
+.shp-scene {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.shp-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 22px;
+}
+
+.shp-stage-center {
+  align-items: center;
+  padding-bottom: 0;
+}
+
+/* Soft ground shadow under the hopping shapes (accent only, may pulse). */
+.shp-shadow {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  width: 110px;
+  height: 20px;
+  margin-left: -55px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(74, 56, 43, 0.5), rgba(74, 56, 43, 0));
+}
+
+/* ----- circle : a bouncy ball ----- */
+
+.shp-ball {
+  position: relative;
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 28%, #8ec3e8, #4a8ac2 58%, #38699a);
+  box-shadow: 0 14px 24px -14px rgba(74, 56, 43, 0.55);
+}
+
+.shp-ball-shine {
+  position: absolute;
+  top: 14%;
+  left: 18%;
+  width: 30%;
+  height: 24%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
+  transform: rotate(-18deg);
+}
+
+/* ----- square : a sturdy hopper ----- */
+
+.shp-square {
+  width: 106px;
+  height: 106px;
+  border-radius: 5px;
+  background: linear-gradient(160deg, #d97e42, #c1652a 65%);
+  box-shadow:
+    inset 0 -8px 0 rgba(74, 56, 43, 0.18),
+    inset 0 5px 0 rgba(255, 255, 255, 0.28);
+}
+
+/* ----- triangle : lands on its base and wiggles ----- */
+
+.shp-triangle-svg {
+  display: block;
+  width: 158px;
+  height: 140px;
+}
+
+.shp-triangle-svg polygon {
+  fill: #79a85b;
+  stroke: #79a85b;
+  stroke-width: 12;
+  stroke-linejoin: round;
+}
+
+/* ----- star : slow spin, points twinkle in turn ----- */
+
+.shp-star {
+  display: block;
+  width: 192px;
+  height: 192px;
+}
+
+.shp-star-base {
+  fill: #e8a13c;
+  stroke: #e8a13c;
+  stroke-width: 8;
+  stroke-linejoin: round;
+}
+
+.shp-star-tip {
+  fill: #f0ac4a;
+  stroke: #f0ac4a;
+  stroke-width: 5;
+  stroke-linejoin: round;
+  transform-box: view-box;
+  transform-origin: 100px 100px;
+  animation: shp-tip 1.8s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.16s);
+}
+
+@keyframes shp-tip {
+  0%,
+  100% {
+    transform: scale(1);
+    fill: #f0ac4a;
+    stroke: #f0ac4a;
+  }
+  50% {
+    transform: scale(1.17);
+    fill: #ffd98a;
+    stroke: #ffd98a;
+  }
+}
+
+/* ----- heart : double-thump heartbeat ----- */
+
+.shp-heart {
+  display: block;
+  width: 176px;
+  height: 176px;
+}
+
+.shp-heart-body {
+  fill: #d9534f;
+  stroke: #d9534f;
+  stroke-width: 4;
+  stroke-linejoin: round;
+}
+
+.shp-heart-shine {
+  fill: rgba(255, 255, 255, 0.55);
+}
+
+/* ----- diamond : gem with glint + sparkles ----- */
+
+.shp-gem {
+  display: block;
+  width: 196px;
+  height: auto;
+}
+
+.shp-gem-body {
+  fill: #6b9bd1;
+  stroke: #6b9bd1;
+  stroke-width: 5;
+  stroke-linejoin: round;
+}
+
+.shp-gem-table {
+  fill: rgba(255, 255, 255, 0.18);
+}
+
+.shp-gem-facets {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.55);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+/* Four-point sparkle used by the gem and moon scenes. */
+.shp-spark {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #e8a13c;
+  clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+  animation: shp-spark-twinkle 1.7s ease-in-out infinite;
+}
+
+@keyframes shp-spark-twinkle {
+  0%,
+  100% {
+    transform: scale(0.45) rotate(-12deg);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1) rotate(15deg);
+    opacity: 1;
+  }
+}
+
+.shp-spark-a {
+  top: 8%;
+  left: 15%;
+}
+
+.shp-spark-b {
+  top: 16%;
+  right: 12%;
+  width: 15px;
+  height: 15px;
+  animation-delay: 0.55s;
+}
+
+.shp-spark-c {
+  bottom: 14%;
+  left: 18%;
+  width: 13px;
+  height: 13px;
+  animation-delay: 1.1s;
+}
+
+/* ----- moon : crescent + tiny stars ----- */
+
+.shp-moon {
+  display: block;
+  width: 184px;
+  height: 184px;
+  animation: shp-moon-rock 3.4s ease-in-out infinite alternate;
+}
+
+@keyframes shp-moon-rock {
+  from {
+    transform: rotate(-6deg);
+  }
+  to {
+    transform: rotate(6deg);
+  }
+}
+
+.shp-moon-body {
+  fill: #7a6aa0;
+}
+
+.shp-moon-crater {
+  fill: #695a8d;
+}
+
+.shp-spark-d {
+  top: 12%;
+  right: 16%;
+  width: 22px;
+  height: 22px;
+}
+
+.shp-spark-e {
+  top: 32%;
+  right: 7%;
+  width: 15px;
+  height: 15px;
+  animation-delay: 0.6s;
+}
+
+.shp-spark-f {
+  top: 5%;
+  right: 42%;
+  width: 13px;
+  height: 13px;
+  animation-delay: 1.15s;
+}

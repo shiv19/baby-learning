@@ -1,0 +1,601 @@
+/* Feelings — one big expressive face per emotion.
+   Pairing styles for components/feelings/visuals.tsx; every class is fee-. */
+
+.fee-scene {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.fee-face {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 28%, #ffe08f, #ffd66b 58%, #f5c455);
+  box-shadow: inset -10px -16px 0 rgba(74, 56, 43, 0.07);
+}
+
+/* ----- shared features ----- */
+
+.fee-blush {
+  position: absolute;
+  top: 98px;
+  width: 30px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(240, 130, 90, 0.35);
+}
+
+.fee-blush-l {
+  left: 16px;
+}
+
+.fee-blush-r {
+  right: 16px;
+}
+
+.fee-brow {
+  position: absolute;
+  top: 46px;
+  width: 36px;
+  height: 9px;
+  border-radius: 6px;
+  background: var(--ink, #4a382b);
+}
+
+/* ----- happy : bounce, squinty arc eyes, big open grin ----- */
+
+.fee-eye-arc-l,
+.fee-eye-arc-r {
+  position: absolute;
+  top: 64px;
+  width: 40px;
+  height: 24px;
+  border-top: 9px solid var(--ink, #4a382b);
+  border-radius: 50%;
+}
+
+.fee-eye-arc-l {
+  left: 36px;
+}
+
+.fee-eye-arc-r {
+  right: 36px;
+}
+
+.fee-grin {
+  position: absolute;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
+  width: 106px;
+  height: 56px;
+  background: var(--ink, #4a382b);
+  border-radius: 14px 14px 106px 106px;
+  overflow: hidden;
+}
+
+.fee-grin-tongue {
+  position: absolute;
+  left: 50%;
+  bottom: -16px;
+  transform: translateX(-50%);
+  width: 58px;
+  height: 36px;
+  border-radius: 50%;
+  background: #f28b8b;
+}
+
+/* ----- sad : heavy lids, frown, sliding tear ----- */
+
+.fee-sad {
+  background: radial-gradient(circle at 34% 28%, #ffe6b8, #f6cf85 58%, #ecc274);
+}
+
+.fee-sad .fee-brow-l {
+  left: 38px;
+  transform: rotate(-14deg);
+}
+
+.fee-sad .fee-brow-r {
+  right: 38px;
+  transform: rotate(14deg);
+}
+
+.fee-eye-droop-l,
+.fee-eye-droop-r {
+  position: absolute;
+  top: 62px;
+  width: 32px;
+  height: 30px;
+  border-radius: 50%;
+  background: #fffdf7;
+  border: 4px solid var(--ink, #4a382b);
+}
+
+.fee-eye-droop-l {
+  left: 36px;
+}
+
+.fee-eye-droop-r {
+  right: 36px;
+}
+
+/* Heavy lid closing the eye from above… */
+.fee-eye-droop-l::before,
+.fee-eye-droop-r::before {
+  content: '';
+  position: absolute;
+  left: -4px;
+  right: -4px;
+  top: -4px;
+  height: 16px;
+  border-radius: 40px 40px 10px 10px;
+  background: var(--ink, #4a382b);
+}
+
+/* …with the pupil drooping at the bottom. */
+.fee-eye-droop-l::after,
+.fee-eye-droop-r::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 2px;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ink, #4a382b);
+}
+
+.fee-frown {
+  position: absolute;
+  left: 50%;
+  top: 120px;
+  transform: translateX(-50%);
+  width: 62px;
+  height: 32px;
+  border-top: 9px solid var(--ink, #4a382b);
+  border-radius: 50%;
+}
+
+.fee-tear {
+  position: absolute;
+  left: 44px;
+  top: 94px;
+  width: 13px;
+  height: 17px;
+  background: #7ab8d9;
+  border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+  animation: fee-tear-slide 2.4s ease-in infinite;
+}
+
+@keyframes fee-tear-slide {
+  0% {
+    transform: translateY(0) scale(0.5);
+    opacity: 0;
+  }
+  18% {
+    opacity: 1;
+    transform: translateY(6px) scale(1);
+  }
+  85% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(54px) scale(0.9);
+    opacity: 0;
+  }
+}
+
+/* ----- sleepy : closed eyes, slow yawn, floating z's ----- */
+
+.fee-eye-closed-l,
+.fee-eye-closed-r {
+  position: absolute;
+  top: 66px;
+  width: 42px;
+  height: 22px;
+  border-bottom: 9px solid var(--ink, #4a382b);
+  border-radius: 0 0 42px 42px;
+}
+
+.fee-eye-closed-l {
+  left: 34px;
+}
+
+.fee-eye-closed-r {
+  right: 34px;
+}
+
+.fee-yawn {
+  position: absolute;
+  left: 50%;
+  bottom: 24px;
+  width: 58px;
+  height: 60px;
+  margin-left: -29px;
+  background: var(--ink, #4a382b);
+  border-radius: 30px 30px 48px 48px;
+  transform-origin: 50% 18%;
+}
+
+.fee-yawn::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 7px;
+  width: 30px;
+  height: 22px;
+  margin-left: -15px;
+  border-radius: 50%;
+  background: #f28b8b;
+}
+
+.fee-z {
+  position: absolute;
+  font-weight: 700;
+  color: var(--ink-soft, #8a7660);
+  opacity: 0;
+  animation: fee-z-float 3.6s ease-in-out infinite;
+}
+
+.fee-z1 {
+  top: 40px;
+  right: 44px;
+  font-size: 26px;
+}
+
+.fee-z2 {
+  top: 66px;
+  right: 22px;
+  font-size: 36px;
+  animation-delay: 1.2s;
+}
+
+.fee-z3 {
+  top: 26px;
+  right: 92px;
+  font-size: 20px;
+  animation-delay: 2.4s;
+}
+
+@keyframes fee-z-float {
+  0% {
+    transform: translateY(12px) scale(0.7);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.95;
+  }
+  60% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-40px) scale(1.15) rotate(8deg);
+    opacity: 0;
+  }
+}
+
+/* ----- surprised : raised brows, round eyes, O mouth ----- */
+
+.fee-brow-up-l,
+.fee-brow-up-r {
+  position: absolute;
+  top: 32px;
+  width: 36px;
+  height: 18px;
+  border-top: 8px solid var(--ink, #4a382b);
+  border-radius: 50%;
+}
+
+.fee-brow-up-l {
+  left: 38px;
+}
+
+.fee-brow-up-r {
+  right: 38px;
+}
+
+.fee-eye-wide-l,
+.fee-eye-wide-r {
+  position: absolute;
+  top: 58px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #fffdf7;
+  border: 5px solid var(--ink, #4a382b);
+}
+
+.fee-eye-wide-l {
+  left: 34px;
+}
+
+.fee-eye-wide-r {
+  right: 34px;
+}
+
+.fee-eye-wide-l::after,
+.fee-eye-wide-r::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--ink, #4a382b);
+}
+
+.fee-oh {
+  position: absolute;
+  left: 50%;
+  bottom: 22px;
+  width: 42px;
+  height: 52px;
+  margin-left: -21px;
+  background: var(--ink, #4a382b);
+  border-radius: 50%;
+}
+
+/* ----- silly : wonky eyes, waggling tongue ----- */
+
+.fee-eye-wonky-l,
+.fee-eye-wonky-r {
+  position: absolute;
+  top: 58px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #fffdf7;
+  border: 5px solid var(--ink, #4a382b);
+}
+
+.fee-eye-wonky-l {
+  left: 34px;
+}
+
+.fee-eye-wonky-r {
+  right: 34px;
+  top: 64px;
+  width: 34px;
+  height: 34px;
+}
+
+.fee-pupil {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--ink, #4a382b);
+}
+
+.fee-pupil-l {
+  top: 4px;
+  right: 4px;
+}
+
+.fee-pupil-r {
+  bottom: 3px;
+  left: 3px;
+}
+
+.fee-silly-mouth {
+  position: absolute;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  width: 94px;
+  height: 48px;
+  background: var(--ink, #4a382b);
+  border-radius: 12px 12px 94px 94px;
+}
+
+.fee-tongue-out {
+  position: absolute;
+  left: 50%;
+  top: 55%;
+  width: 36px;
+  height: 46px;
+  margin-left: -18px;
+  background: #f28b8b;
+  border: 4px solid var(--ink, #4a382b);
+  border-radius: 8px 8px 20px 20px;
+  transform-origin: 50% 12%;
+  animation: fee-tongue-wag 0.9s ease-in-out infinite;
+}
+
+@keyframes fee-tongue-wag {
+  0%,
+  100% {
+    transform: rotate(-9deg);
+  }
+  50% {
+    transform: rotate(9deg);
+  }
+}
+
+/* ----- angry : red face, V brows, gritted teeth ----- */
+
+.fee-mad {
+  background: radial-gradient(circle at 34% 28%, #f8b45c, #f2a13c 58%, #e8893a);
+}
+
+.fee-mad .fee-brow-l {
+  top: 54px;
+  left: 36px;
+  transform: rotate(20deg);
+}
+
+.fee-mad .fee-brow-r {
+  top: 54px;
+  right: 36px;
+  transform: rotate(-20deg);
+}
+
+.fee-eye-mad-l,
+.fee-eye-mad-r {
+  position: absolute;
+  top: 76px;
+  width: 22px;
+  height: 18px;
+  border-radius: 4px 4px 11px 11px;
+  background: var(--ink, #4a382b);
+}
+
+.fee-eye-mad-l {
+  left: 44px;
+}
+
+.fee-eye-mad-r {
+  right: 44px;
+}
+
+.fee-grit {
+  position: absolute;
+  left: 50%;
+  bottom: 34px;
+  transform: translateX(-50%);
+  width: 74px;
+  height: 26px;
+  border-radius: 9px;
+  border: 4px solid var(--ink, #4a382b);
+  background: repeating-linear-gradient(90deg, var(--ink, #4a382b) 0 8px, #fffdf7 8px 13px);
+}
+
+/* ----- loved : beating heart eyes, warm smile, floating hearts ----- */
+
+.fee-heart-eye {
+  position: absolute;
+  top: 52px;
+  width: 28px;
+  height: 28px;
+  background: #e0524e;
+  transform: rotate(-45deg);
+  animation: fee-heart-beat 1.1s ease-in-out infinite;
+}
+
+.fee-heart-eye::before,
+.fee-heart-eye::after {
+  content: '';
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #e0524e;
+}
+
+.fee-heart-eye::before {
+  top: -14px;
+  left: 0;
+}
+
+.fee-heart-eye::after {
+  left: 14px;
+  top: 0;
+}
+
+.fee-heart-eye-l {
+  left: 38px;
+}
+
+.fee-heart-eye-r {
+  right: 38px;
+  animation-delay: 0.15s;
+}
+
+@keyframes fee-heart-beat {
+  0%,
+  100% {
+    transform: rotate(-45deg) scale(1);
+  }
+  30% {
+    transform: rotate(-45deg) scale(1.22);
+  }
+  45% {
+    transform: rotate(-45deg) scale(1.05);
+  }
+  60% {
+    transform: rotate(-45deg) scale(1.18);
+  }
+}
+
+.fee-warm-smile {
+  position: absolute;
+  left: 50%;
+  bottom: 30px;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 54px;
+  border-bottom: 10px solid var(--ink, #4a382b);
+  border-radius: 0 0 100px 100px;
+}
+
+.fee-float-heart {
+  --hs: 16px;
+  position: absolute;
+  width: var(--hs);
+  height: var(--hs);
+  background: #ef7674;
+  opacity: 0;
+  animation: fee-heart-float 3.2s ease-in-out infinite;
+}
+
+.fee-float-heart::before,
+.fee-float-heart::after {
+  content: '';
+  position: absolute;
+  width: var(--hs);
+  height: var(--hs);
+  border-radius: 50%;
+  background: #ef7674;
+}
+
+.fee-float-heart::before {
+  top: calc(var(--hs) / -2);
+  left: 0;
+}
+
+.fee-float-heart::after {
+  left: var(--hs);
+  top: 0;
+}
+
+.fee-fh1 {
+  left: 26px;
+  bottom: 128px;
+}
+
+.fee-fh2 {
+  --hs: 12px;
+  right: 22px;
+  bottom: 108px;
+  animation-delay: 1.1s;
+}
+
+.fee-fh3 {
+  --hs: 13px;
+  left: 66px;
+  bottom: 84px;
+  animation-delay: 2.2s;
+}
+
+@keyframes fee-heart-float {
+  0% {
+    transform: rotate(-45deg) translateY(0) scale(0.55);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(-45deg) translateY(-84px) scale(1);
+    opacity: 0;
+  }
+}

@@ -1,0 +1,837 @@
+/* ---------- vehicles : one big animated vehicle per card ---------- */
+
+.veh-scene {
+  --veh-ink: #4a382b;
+  --veh-ink-soft: #8a7660;
+  --veh-card: #fffdf7;
+  --veh-glass: #d9ecf7;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Static centering wrapper. No transforms here — motion owns those. */
+.veh-pos {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+/* Seat each vehicle so its wheels / hull sit on its ground line. */
+.veh-pos-road .veh-car {
+  margin-top: 10px;
+}
+
+.veh-pos-road .veh-bus {
+  margin-top: 15px;
+}
+
+.veh-pos-road .veh-train {
+  margin-top: -2px;
+}
+
+.veh-pos-road .veh-truck {
+  margin-top: 11px;
+}
+
+.veh-pos-sky > * {
+  margin-top: -20px;
+}
+
+.veh-pos-boat > * {
+  margin-top: 16px;
+}
+
+/* ----- shared spinning wheel: tire, cream hub, rotating spoke marks ----- */
+
+.veh-wheel {
+  position: absolute;
+  bottom: -7px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--veh-ink);
+  animation: veh-spin 1.05s linear infinite;
+}
+
+.veh-wheel::before {
+  content: '';
+  position: absolute;
+  inset: 24%;
+  border-radius: 50%;
+  background: var(--veh-card);
+}
+
+.veh-wheel::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 12%;
+  bottom: 12%;
+  width: 3px;
+  margin-left: -1.5px;
+  border-radius: 2px;
+  background: var(--veh-ink);
+}
+
+@keyframes veh-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.veh-glass {
+  position: absolute;
+  background: var(--veh-glass);
+  border-radius: 6px;
+}
+
+/* ----- road : faint edge + dashed centre line sliding beneath the wheels ----- */
+
+.veh-road {
+  position: absolute;
+  left: -8%;
+  right: -8%;
+  bottom: 26%;
+  height: 18px;
+}
+
+.veh-road::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 9px;
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(74, 56, 43, 0.28);
+}
+
+.veh-road::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 3px;
+  height: 5px;
+  border-radius: 3px;
+  background: repeating-linear-gradient(90deg, var(--veh-ink) 0 30px, transparent 30px 58px);
+  animation: veh-dash 0.9s linear infinite;
+}
+
+@keyframes veh-dash {
+  to {
+    background-position: -58px 0;
+  }
+}
+
+/* ----- car ----- */
+
+.veh-car {
+  position: relative;
+  width: 172px;
+  height: 74px;
+  --accent: #d1603d;
+}
+
+.veh-car-cabin {
+  position: absolute;
+  left: 38px;
+  top: 0;
+  width: 86px;
+  height: 42px;
+  background: var(--accent);
+  border-radius: 18px 28px 6px 6px;
+}
+
+.veh-car-cabin .veh-glass {
+  top: 8px;
+  width: 28px;
+  height: 22px;
+  border-radius: 6px 10px 4px 4px;
+}
+
+.veh-car-cabin .veh-glass:first-child {
+  left: 10px;
+}
+
+.veh-car-cabin .veh-glass:last-child {
+  right: 12px;
+}
+
+.veh-car-body {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 172px;
+  height: 38px;
+  background: var(--accent);
+  border-radius: 12px 20px 12px 12px;
+}
+
+.veh-headlight {
+  position: absolute;
+  right: 8px;
+  top: 11px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ffd66b;
+}
+
+.veh-car .veh-wheel-a {
+  left: 20px;
+}
+
+.veh-car .veh-wheel-b {
+  right: 24px;
+}
+
+/* ----- bus ----- */
+
+.veh-bus {
+  position: relative;
+  width: 200px;
+  height: 66px;
+  --accent: #e8a13c;
+  background: var(--accent);
+  border-radius: 16px 20px 12px 12px;
+}
+
+.veh-bus .veh-glass {
+  top: 10px;
+  width: 26px;
+  height: 22px;
+}
+
+.veh-bus-g1 {
+  left: 12px;
+}
+
+.veh-bus-g2 {
+  left: 46px;
+}
+
+.veh-bus-g3 {
+  left: 80px;
+}
+
+.veh-bus-g4 {
+  left: 114px;
+}
+
+.veh-bus-door {
+  position: absolute;
+  right: 14px;
+  top: 10px;
+  width: 34px;
+  height: 44px;
+  background: var(--veh-glass);
+  border-radius: 6px;
+}
+
+.veh-bus-stripe {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 11px;
+  height: 5px;
+  background: rgba(74, 56, 43, 0.22);
+}
+
+.veh-bus .veh-wheel {
+  width: 30px;
+  height: 30px;
+  bottom: -6px;
+}
+
+.veh-bus .veh-wheel-a {
+  left: 26px;
+}
+
+.veh-bus .veh-wheel-b {
+  right: 34px;
+}
+
+/* ----- firetruck ----- */
+
+.veh-truck {
+  position: relative;
+  width: 190px;
+  height: 74px;
+  --accent: #c0392b;
+}
+
+.veh-truck-body {
+  position: absolute;
+  left: 0;
+  bottom: 14px;
+  width: 128px;
+  height: 40px;
+  background: var(--accent);
+  border-radius: 10px 6px 8px 8px;
+}
+
+.veh-truck-body::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 13px;
+  height: 6px;
+  background: #e8a13c;
+  opacity: 0.85;
+}
+
+.veh-truck-cab {
+  position: absolute;
+  right: 0;
+  bottom: 14px;
+  width: 58px;
+  height: 52px;
+  background: var(--accent);
+  border-radius: 14px 18px 6px 8px;
+}
+
+.veh-truck-cab .veh-glass {
+  left: 13px;
+  top: 11px;
+  width: 30px;
+  height: 22px;
+}
+
+.veh-ladder {
+  position: absolute;
+  left: 16px;
+  bottom: 52px;
+  width: 92px;
+  height: 12px;
+  border: 3px solid #8a6a50;
+  border-radius: 5px;
+  background: repeating-linear-gradient(90deg, transparent 0 14px, #8a6a50 14px 17px);
+}
+
+.veh-beacon {
+  position: absolute;
+  right: 20px;
+  bottom: 64px;
+  width: 16px;
+  height: 11px;
+  border-radius: 8px 8px 2px 2px;
+  background: #ff5a4e;
+  animation: veh-beacon 0.7s ease-in-out infinite;
+}
+
+@keyframes veh-beacon {
+  0%,
+  100% {
+    background: #ff5a4e;
+    box-shadow: 0 0 14px 5px rgba(255, 90, 78, 0.6);
+  }
+  50% {
+    background: #ffd66b;
+    box-shadow: 0 0 14px 5px rgba(255, 214, 107, 0.6);
+  }
+}
+
+.veh-truck .veh-wheel {
+  width: 32px;
+  height: 32px;
+  bottom: -6px;
+  animation-duration: 0.95s;
+}
+
+.veh-truck .veh-wheel-a {
+  left: 20px;
+}
+
+.veh-truck .veh-wheel-b {
+  left: 58px;
+}
+
+.veh-truck .veh-wheel-c {
+  right: 10px;
+}
+
+/* ----- train ----- */
+
+.veh-train {
+  position: relative;
+  width: 168px;
+  height: 96px;
+  --accent: #5b8a5b;
+}
+
+.veh-train-cab {
+  position: absolute;
+  left: 0;
+  bottom: 20px;
+  width: 62px;
+  height: 60px;
+  background: var(--accent);
+  border-radius: 12px 4px 0 8px;
+}
+
+.veh-train-cab .veh-glass {
+  left: 12px;
+  top: 10px;
+  width: 30px;
+  height: 24px;
+  border-radius: 6px;
+}
+
+.veh-train-boiler {
+  position: absolute;
+  left: 56px;
+  bottom: 20px;
+  width: 104px;
+  height: 46px;
+  background: var(--accent);
+  border-radius: 4px 16px 8px 4px;
+}
+
+.veh-train-chimney {
+  position: absolute;
+  right: 26px;
+  bottom: 62px;
+  width: 18px;
+  height: 24px;
+  background: #6b5642;
+  border-radius: 5px 5px 0 0;
+}
+
+.veh-train-cow {
+  position: absolute;
+  right: -4px;
+  bottom: 14px;
+  width: 20px;
+  height: 18px;
+  background: var(--accent);
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+.veh-smoke {
+  position: absolute;
+  left: 121px;
+  top: 4px;
+  width: 24px;
+  height: 24px;
+}
+
+.veh-puff {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #ffffff;
+  filter: blur(1px);
+}
+
+.veh-train .veh-wheel {
+  bottom: -5px;
+}
+
+.veh-train-wheel-front {
+  width: 26px;
+  height: 26px;
+  right: 40px;
+  animation-duration: 0.8s;
+}
+
+.veh-train-wheel-back {
+  width: 38px;
+  height: 38px;
+  left: 26px;
+  animation-duration: 1.2s;
+}
+
+/* rail + sleepers sliding under the engine */
+
+.veh-track {
+  position: absolute;
+  left: -8%;
+  right: -8%;
+  bottom: 25%;
+  height: 18px;
+}
+
+.veh-track::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--veh-ink);
+}
+
+.veh-track::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 7px;
+  height: 11px;
+  background: repeating-linear-gradient(90deg, rgba(74, 56, 43, 0.55) 0 9px, transparent 9px 34px);
+  animation: veh-ties 0.75s linear infinite;
+}
+
+@keyframes veh-ties {
+  to {
+    background-position: -34px 0;
+  }
+}
+
+/* ----- plane ----- */
+
+.veh-horizon {
+  position: absolute;
+  left: -8%;
+  right: -8%;
+  bottom: 22%;
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(74, 56, 43, 0.16);
+}
+
+.veh-cloud {
+  position: absolute;
+  top: 24%;
+  left: 50%;
+  width: 62px;
+  height: 20px;
+  margin-left: -31px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 4px 10px -6px rgba(74, 56, 43, 0.4);
+}
+
+.veh-cloud::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: -10px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+.veh-cloud::after {
+  content: '';
+  position: absolute;
+  right: 12px;
+  top: -6px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+.veh-plane {
+  position: relative;
+  width: 140px;
+  height: 56px;
+  --accent: #6b9bd1;
+}
+
+.veh-plane-fuselage {
+  position: absolute;
+  left: 0;
+  top: 12px;
+  width: 128px;
+  height: 32px;
+  background: var(--accent);
+  border-radius: 16px 26px 24px 18px;
+}
+
+.veh-plane-tail {
+  position: absolute;
+  left: 2px;
+  top: -16px;
+  width: 34px;
+  height: 34px;
+  background: var(--accent);
+  clip-path: polygon(0 100%, 30% 0, 100% 0, 100% 100%);
+}
+
+.veh-plane-wing {
+  position: absolute;
+  left: 52px;
+  top: 36px;
+  width: 42px;
+  height: 12px;
+  background: #5b8ac0;
+  border-radius: 4px 4px 12px 12px;
+}
+
+.veh-plane-cockpit {
+  right: 28px;
+  top: 18px;
+  width: 20px;
+  height: 12px;
+  border-radius: 6px 10px 4px 4px;
+}
+
+.veh-prop {
+  position: absolute;
+  right: -9px;
+  top: 6px;
+  width: 10px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(74, 56, 43, 0.12);
+}
+
+.veh-prop::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  margin-left: -3px;
+  border-radius: 3px;
+  background: var(--veh-ink-soft);
+  animation: veh-spin 0.24s linear infinite;
+}
+
+/* ----- boat ----- */
+
+.veh-boat {
+  position: relative;
+  width: 130px;
+  height: 104px;
+  --accent: #4a8ac2;
+  transform-origin: 50% 85%;
+}
+
+.veh-boat-mast {
+  position: absolute;
+  left: 86px;
+  bottom: 32px;
+  width: 5px;
+  height: 58px;
+  border-radius: 3px;
+  background: var(--veh-ink);
+}
+
+.veh-boat-flag {
+  position: absolute;
+  left: 91px;
+  top: 12px;
+  width: 28px;
+  height: 18px;
+  background: #d1603d;
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+  transform-origin: left center;
+  animation: veh-flap 0.85s ease-in-out infinite;
+}
+
+@keyframes veh-flap {
+  0%,
+  100% {
+    transform: rotate(2deg) scaleX(1);
+  }
+  50% {
+    transform: rotate(-6deg) scaleX(0.78);
+  }
+}
+
+.veh-boat-cabin {
+  position: absolute;
+  left: 22px;
+  bottom: 32px;
+  width: 48px;
+  height: 32px;
+  background: var(--veh-card);
+  border-radius: 8px 8px 0 0;
+}
+
+.veh-boat-cabin .veh-glass {
+  left: 9px;
+  top: 7px;
+  width: 26px;
+  height: 16px;
+}
+
+.veh-boat-hull {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 130px;
+  height: 36px;
+  background: var(--accent);
+  border-radius: 8px 8px 44px 44px / 8px 8px 36px 36px;
+}
+
+/* two sine-ish wave layers sliding past each other */
+
+.veh-wave {
+  position: absolute;
+  left: -60px;
+  right: -60px;
+  height: 30px;
+  background:
+    radial-gradient(circle at 13px 15px, var(--wcol) 12px, transparent 12.6px) 0 0 / 26px 30px repeat-x,
+    linear-gradient(var(--wcol), var(--wcol)) 0 15px / 100% 15px no-repeat;
+}
+
+.veh-wave-1 {
+  --wcol: #4a8ac2;
+  bottom: 20%;
+  animation: veh-wave-slide 2.6s linear infinite;
+}
+
+.veh-wave-2 {
+  --wcol: #7fb3dc;
+  bottom: 23%;
+  animation: veh-wave-slide 3.9s linear infinite reverse;
+}
+
+@keyframes veh-wave-slide {
+  to {
+    transform: translateX(-26px);
+  }
+}
+
+/* ----- rocket ----- */
+
+.veh-pad-ground {
+  position: absolute;
+  left: -8%;
+  right: -8%;
+  bottom: 24%;
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(74, 56, 43, 0.3);
+}
+
+.veh-pad {
+  position: absolute;
+  left: 50%;
+  bottom: 24%;
+  width: 76px;
+  height: 20px;
+  margin-left: -38px;
+}
+
+.veh-pad::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 7px;
+  border-radius: 4px;
+  background: #a9805b;
+}
+
+.veh-pad::after {
+  content: '';
+  position: absolute;
+  top: 7px;
+  left: 14px;
+  right: 14px;
+  height: 13px;
+  background:
+    linear-gradient(#a9805b, #a9805b) 0 0 / 6px 13px no-repeat,
+    linear-gradient(#a9805b, #a9805b) 100% 0 / 6px 13px no-repeat;
+}
+
+.veh-rocket-fly {
+  will-change: transform;
+}
+
+.veh-rocket {
+  position: relative;
+  width: 48px;
+  height: 96px;
+  --accent: #a277c9;
+  background: var(--accent);
+  border-radius: 24px 24px 12px 12px;
+  animation: veh-rumble 0.15s linear infinite;
+}
+
+@keyframes veh-rumble {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(0.8px, -0.5px);
+  }
+  50% {
+    transform: translate(-0.6px, 0.4px);
+  }
+  75% {
+    transform: translate(0.5px, 0.6px);
+  }
+}
+
+.veh-rocket-window {
+  position: absolute;
+  left: 50%;
+  top: 24px;
+  width: 20px;
+  height: 20px;
+  margin-left: -10px;
+  border-radius: 50%;
+  background: var(--veh-glass);
+  border: 4px solid #7c5a9e;
+}
+
+.veh-rocket-fin {
+  position: absolute;
+  bottom: 6px;
+  width: 18px;
+  height: 32px;
+  background: #83589e;
+}
+
+.veh-rocket-fin-l {
+  left: -13px;
+  border-radius: 12px 0 0 14px;
+}
+
+.veh-rocket-fin-r {
+  right: -13px;
+  border-radius: 0 12px 14px 0;
+}
+
+.veh-flame {
+  position: absolute;
+  left: 50%;
+  bottom: -24px;
+  width: 22px;
+  height: 32px;
+  margin-left: -11px;
+  background: linear-gradient(#ffd66b, #f2813c);
+  border-radius: 50% 50% 50% 50% / 20% 20% 80% 80%;
+  transform-origin: 50% 0;
+}
+
+.veh-flame i {
+  position: absolute;
+  left: 50%;
+  bottom: 4px;
+  width: 10px;
+  height: 15px;
+  margin-left: -5px;
+  background: #fff3c9;
+  border-radius: 50% 50% 50% 50% / 20% 20% 80% 80%;
+  transform-origin: 50% 100%;
+  animation: veh-flicker 0.26s ease-in-out infinite alternate;
+}
+
+@keyframes veh-flicker {
+  from {
+    transform: scale(1) skewX(0deg);
+  }
+  to {
+    transform: scale(1.15, 0.9) skewX(6deg);
+  }
+}

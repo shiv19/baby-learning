@@ -1,0 +1,681 @@
+/* Actions ("Copy me") — one imitable character action per card.
+   Every class is act- prefixed. Palette: ink #4a382b on card #fffdf7. */
+
+/* ---------- scene shells ---------- */
+
+.act-scene {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.act-scene.act-floor {
+  align-items: flex-end;
+}
+
+/* Standing scenes share a soft ground line the kid performs on. */
+.act-ground {
+  position: absolute;
+  left: 9%;
+  right: 9%;
+  bottom: 27px;
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(74, 56, 43, 0.13);
+}
+
+.act-floor > * {
+  margin-bottom: 31px;
+}
+
+/* ---------- the kid : round head, mitten hands and feet ---------- */
+
+.act-kid {
+  --skin: #f2c199;
+  --skin-dark: #e0a479;
+  --shirt: #6b9bd1;
+  position: relative;
+  width: 120px;
+  height: 150px;
+  flex: none;
+}
+
+.act-kid-clap {
+  --shirt: #e8a13c;
+}
+
+.act-kid-jump {
+  --shirt: #79a85b;
+}
+
+.act-kid-wave {
+  --shirt: #6b9bd1;
+}
+
+.act-kid-stomp {
+  --shirt: #c1652a;
+}
+
+.act-kid-spin {
+  --shirt: #a277c9;
+}
+
+.act-kid-march {
+  --shirt: #5aa05a;
+}
+
+.act-kid-sleep {
+  --shirt: #7a6aa0;
+}
+
+.act-kid-head {
+  position: absolute;
+  top: 0;
+  left: calc(50% - 29px);
+  width: 58px;
+  height: 58px;
+  background: var(--skin);
+  border-radius: 50%;
+  z-index: 4;
+}
+
+.act-kid-hair {
+  position: absolute;
+  top: -5px;
+  left: calc(50% - 15px);
+  width: 30px;
+  height: 16px;
+  background: #6b4a33;
+  border-radius: 15px 15px 5px 5px;
+}
+
+.act-kid-hair::after {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: -4px;
+  width: 11px;
+  height: 11px;
+  background: #6b4a33;
+  border-radius: 50%;
+}
+
+.act-kid-eye {
+  position: absolute;
+  top: 25px;
+  width: 8px;
+  height: 13px;
+  border-radius: 4px;
+  background: var(--ink);
+  animation: act-blink 4.2s infinite;
+}
+
+.act-eye-l {
+  left: 14px;
+}
+
+.act-eye-r {
+  right: 14px;
+}
+
+.act-kid-cheek {
+  position: absolute;
+  bottom: 13px;
+  width: 11px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(224, 122, 95, 0.45);
+}
+
+.act-cheek-l {
+  left: 7px;
+}
+
+.act-cheek-r {
+  right: 7px;
+}
+
+.act-kid-mouth {
+  position: absolute;
+  bottom: 10px;
+  left: calc(50% - 10px);
+  width: 20px;
+  height: 10px;
+  border-bottom: 4px solid var(--ink);
+  border-radius: 3px 3px 16px 16px;
+}
+
+.act-kid-body {
+  position: absolute;
+  top: 54px;
+  left: calc(50% - 30px);
+  width: 60px;
+  height: 62px;
+  background: var(--shirt);
+  border-radius: 24px 24px 20px 20px;
+  z-index: 2;
+}
+
+.act-kid-leg {
+  position: absolute;
+  top: 110px;
+  width: 16px;
+  height: 36px;
+  background: var(--skin);
+  border-radius: 8px;
+  z-index: 1;
+}
+
+.act-leg-l {
+  left: 37px;
+}
+
+.act-leg-r {
+  right: 37px;
+}
+
+.act-kid-foot {
+  position: absolute;
+  bottom: -3px;
+  left: calc(50% - 13px);
+  width: 26px;
+  height: 15px;
+  background: var(--skin-dark);
+  border-radius: 9px 9px 7px 7px;
+}
+
+.act-kid-arm {
+  position: absolute;
+  top: 58px;
+  width: 14px;
+  height: 44px;
+  background: var(--skin);
+  border-radius: 8px;
+  z-index: 3;
+}
+
+.act-arm-l {
+  left: 20px;
+}
+
+.act-arm-r {
+  right: 20px;
+}
+
+.act-kid-hand {
+  position: absolute;
+  bottom: -14px;
+  left: calc(50% - 11px);
+  width: 22px;
+  height: 22px;
+  background: var(--skin);
+  border-radius: 11px;
+  box-shadow: inset -3px -3px 0 rgba(0, 0, 0, 0.06);
+}
+
+@keyframes act-blink {
+  0%,
+  91%,
+  100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.12);
+  }
+}
+
+/* ---------- clap : hands meet in front, spark at contact ---------- */
+
+.act-clap-arm {
+  top: 64px;
+  width: 76px;
+  height: 15px;
+  border-radius: 9px;
+}
+
+.act-clap-l {
+  left: -16px;
+}
+
+.act-clap-r {
+  right: -16px;
+}
+
+.act-clap-arm .act-kid-hand {
+  top: calc(50% - 12px);
+  bottom: auto;
+  width: 24px;
+  height: 24px;
+}
+
+.act-clap-l .act-kid-hand {
+  left: auto;
+  right: -11px;
+}
+
+.act-clap-r .act-kid-hand {
+  right: auto;
+  left: -11px;
+}
+
+.act-clap .act-kid-head {
+  animation: act-bob 0.95s ease-in-out infinite;
+}
+
+@keyframes act-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  35% {
+    transform: translateY(-4px);
+  }
+}
+
+.act-clap-spark {
+  position: absolute;
+  left: calc(50% - 27px);
+  top: 44px;
+  width: 54px;
+  height: 54px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.act-clap-spark svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ---------- jump : squat, leap, land, settle, pause ---------- */
+
+.act-jump-kid {
+  position: relative;
+  transform-origin: 50% 100%;
+}
+
+.act-jump-dust {
+  position: absolute;
+  bottom: 24px;
+  width: 20px;
+  height: 12px;
+  border-radius: 7px;
+  background: rgba(74, 56, 43, 0.18);
+}
+
+.act-jump-dust-l {
+  left: calc(50% - 66px);
+}
+
+.act-jump-dust-r {
+  right: calc(50% - 66px);
+}
+
+/* ---------- wave : raised arm, waving forearm, tilted head ---------- */
+
+.act-wave .act-kid-head {
+  animation: act-tilt 2.1s ease-in-out infinite;
+}
+
+@keyframes act-tilt {
+  0%,
+  100% {
+    transform: rotate(-6deg);
+  }
+  50% {
+    transform: rotate(6deg);
+  }
+}
+
+.act-wave-upper {
+  position: absolute;
+  left: 81px;
+  top: 30px;
+  width: 14px;
+  height: 34px;
+  background: var(--skin);
+  border-radius: 8px;
+  z-index: 3;
+}
+
+.act-wave-fore {
+  position: absolute;
+  left: 81px;
+  top: -10px;
+  width: 14px;
+  height: 46px;
+  background: var(--skin);
+  border-radius: 8px;
+  z-index: 3;
+  transform-origin: 50% calc(100% - 8px);
+}
+
+.act-wave-fore .act-kid-hand {
+  bottom: auto;
+  top: -17px;
+}
+
+/* ---------- stomp : lift and slam, impact ring + dust ---------- */
+
+.act-stomp-leg {
+  transform-origin: 50% 7px;
+}
+
+.act-stomp-ring {
+  position: absolute;
+  bottom: -12px;
+  width: 46px;
+  height: 18px;
+  border: 4px solid rgba(193, 101, 42, 0.55);
+  border-radius: 50%;
+}
+
+.act-ring-l {
+  left: 24px;
+}
+
+.act-ring-r {
+  right: 24px;
+}
+
+.act-stomp-dust {
+  position: absolute;
+  bottom: -10px;
+  width: 12px;
+  height: 10px;
+  border-radius: 6px;
+  background: rgba(74, 56, 43, 0.2);
+}
+
+.act-dust-a {
+  left: 8px;
+}
+
+.act-dust-b {
+  left: 60px;
+}
+
+.act-dust-c {
+  right: 8px;
+}
+
+.act-dust-d {
+  right: 60px;
+}
+
+/* ---------- spin : full turn in place with speed streaks ---------- */
+
+.act-spin-kid {
+  position: relative;
+}
+
+.act-spin-streak {
+  position: absolute;
+  top: calc(50% - 70px);
+  width: 42px;
+  height: 140px;
+}
+
+.act-spin-streak svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.act-spin-streak path {
+  fill: none;
+  stroke: rgba(74, 56, 43, 0.38);
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+
+.act-streak-l {
+  left: calc(50% - 140px);
+}
+
+.act-streak-r {
+  right: calc(50% - 140px);
+}
+
+/* ---------- march : stepping in place, opposite arm swings ---------- */
+
+.act-march-kid {
+  position: relative;
+}
+
+.act-march-arm {
+  transform-origin: 50% 7px;
+}
+
+.act-march-leg {
+  transform-origin: 50% 7px;
+}
+
+/* ---------- sleep : lying down, breathing, floating Z z z ---------- */
+
+.act-sleep {
+  background: radial-gradient(circle at 72% 16%, rgba(122, 106, 160, 0.16), transparent 58%);
+}
+
+.act-sleep-group {
+  position: relative;
+  width: 172px;
+  height: 128px;
+  margin-top: 14px;
+}
+
+.act-sleep-kid {
+  position: absolute;
+  left: calc(50% - 60px);
+  top: calc(50% - 75px);
+}
+
+/* Lying down: upright head resting on a pillow at the left, body stretched right. */
+.act-kid-sleep .act-kid-head {
+  top: 34px;
+  left: -2px;
+}
+
+.act-kid-sleep .act-kid-body {
+  top: 40px;
+  left: 46px;
+  width: 60px;
+  height: 56px;
+  border-radius: 26px;
+}
+
+.act-sleep-leg {
+  height: 16px;
+  border-radius: 8px;
+}
+
+.act-sleep-leg-a {
+  top: 62px;
+  left: 98px;
+}
+
+.act-sleep-leg-b {
+  top: 68px;
+  left: 104px;
+  width: 30px;
+}
+
+.act-sleep-leg .act-kid-foot {
+  left: auto;
+  right: -6px;
+  top: calc(50% - 7.5px);
+  bottom: auto;
+}
+
+.act-sleep .act-kid-body {
+  animation: act-breathe 2.8s ease-in-out infinite;
+  transform-origin: 50% 100%;
+}
+
+@keyframes act-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05, 1.09);
+  }
+}
+
+.act-kid-asleep .act-kid-eye {
+  top: 27px;
+  width: 16px;
+  height: 9px;
+  background: transparent;
+  border-bottom: 4px solid var(--ink);
+  border-radius: 4px 4px 12px 12px;
+  animation: none;
+}
+
+.act-kid-asleep .act-kid-mouth {
+  bottom: 13px;
+  left: calc(50% - 7.5px);
+  width: 9px;
+  height: 9px;
+  border: 3px solid var(--ink);
+  border-radius: 50%;
+}
+
+.act-sleep-pillow {
+  position: absolute;
+  left: 14px;
+  top: 76px;
+  width: 76px;
+  height: 24px;
+  border-radius: 13px;
+  background: #fff;
+  box-shadow:
+    inset 0 -5px 0 rgba(74, 56, 43, 0.08),
+    0 4px 10px rgba(74, 56, 43, 0.16);
+}
+
+.act-sleep-blanket {
+  position: absolute;
+  left: 84px;
+  top: 25px;
+  width: 60px;
+  height: 62px;
+  background: #7a6aa0;
+  border-radius: 14px;
+  box-shadow: inset 0 -8px 0 rgba(0, 0, 0, 0.12);
+  z-index: 3;
+}
+
+.act-sleep-blanket::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 12px;
+  border-radius: 14px 14px 0 0;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.act-sleep-moon {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  box-shadow: 8px 6px 0 0 #f2b13c;
+  transform: rotate(-12deg);
+}
+
+.act-sleep-star {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #e3b23c;
+  animation: act-twinkle 2.2s ease-in-out infinite;
+}
+
+.act-star-1 {
+  left: 16%;
+  top: 16%;
+}
+
+.act-star-2 {
+  left: 68%;
+  top: 32%;
+  width: 7px;
+  height: 7px;
+  animation-delay: 0.7s;
+}
+
+.act-star-3 {
+  left: 40%;
+  top: 10%;
+  width: 6px;
+  height: 6px;
+  animation-delay: 1.4s;
+}
+
+@keyframes act-twinkle {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+.act-sleep-z {
+  position: absolute;
+  font-weight: 700;
+  color: #7a6aa0;
+  opacity: 0;
+  animation: act-zfloat 3.3s linear infinite;
+}
+
+.act-z1 {
+  left: 22px;
+  top: 8px;
+  font-size: 36px;
+}
+
+.act-z2 {
+  left: 54px;
+  top: -6px;
+  font-size: 26px;
+  animation-delay: 1.1s;
+}
+
+.act-z3 {
+  left: 80px;
+  top: 4px;
+  font-size: 20px;
+  animation-delay: 2.2s;
+}
+
+@keyframes act-zfloat {
+  0% {
+    transform: translateY(12px) scale(0.6);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.95;
+  }
+  60% {
+    opacity: 0.95;
+  }
+  100% {
+    transform: translateY(-38px) scale(1.15);
+    opacity: 0;
+  }
+}
